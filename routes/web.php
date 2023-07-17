@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\PublicPageController;
 
 /*
 |--------------------------------------------------------------------------
@@ -17,6 +18,25 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+
+//=========================================================
+// Admin
+//=========================================================
+
+
+//=========================================================
+// Guest
+//=========================================================
+// 公開ページ
+Route::get('/top', [PublicPageController::class, 'topPage'])->name('top');
+Route::get('/access', [PublicPageController::class, 'accessPage'])->name('access');
+Route::get('/rooms', [PublicPageController::class, 'roomsPage'])->name('rooms');
+// お問い合わせ
+
+// 宿泊プラン
+
+// 予約
+
 
 Route::get('/dashboard', function () {
     return view('dashboard');
