@@ -18,6 +18,8 @@ class RouteServiceProvider extends ServiceProvider
      * @var string
      */
     public const HOME = '/dashboard';
+    // Adminのログイン後のリダイレクト先を変更(予約一覧画面に変更)
+    public const ADMIN_HOME = '/admin/reservations/index';
 
     /**
      * Define your route model bindings, pattern filters, and other route configuration.
@@ -35,6 +37,14 @@ class RouteServiceProvider extends ServiceProvider
 
             Route::middleware('web')
                 ->group(base_path('routes/web.php'));
+
+            // // Admin用のルーティングを追加
+            Route::middleware('web')
+                ->prefix('admin')
+                //admin.phpの各ルートでのURLの頭に「admin」がつくようにする
+                ->name('admin.')
+                //admin.phpの各ルートでの名前の頭に「admin.」がつくようにする
+                ->group(base_path('routes/admin.php'));
         });
     }
 

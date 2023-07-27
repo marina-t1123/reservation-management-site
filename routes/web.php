@@ -19,10 +19,6 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-//=========================================================
-// Admin
-//=========================================================
-
 
 //=========================================================
 // Guest
@@ -38,14 +34,23 @@ Route::get('/rooms', [PublicPageController::class, 'roomsPage'])->name('rooms');
 // 予約
 
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+//=========================================================
+// Admin
+//=========================================================
+require __DIR__.'/admin.php';
 
-Route::middleware('auth')->group(function () {
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-});
 
-require __DIR__.'/auth.php';
+
+//=========================================================
+// 元々実装されていたUserのルーティング
+// Route::get('/dashboard', function () {
+//     return view('dashboard');
+// })->middleware(['auth', 'verified'])->name('dashboard');
+
+// Route::middleware('auth')->group(function () {
+//     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+//     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+//     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+// });
+
+// require __DIR__.'/auth.php';
