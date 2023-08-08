@@ -42,7 +42,7 @@
                             <li class="nav-item mx-2">
                                 <div class="d-flex align-items-center">
                                     <i class="fa-solid fa-envelope"></i>
-                                    <a class="nav-link" href="{{ route('')}}">CONTACT</a>
+                                    <a class="nav-link" href="{{ route('inquiry.create')}}">CONTACT</a>
                                 </div>
                             </li>
                         </ul>

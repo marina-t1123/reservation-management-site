@@ -24,10 +24,9 @@ Route::get('/', function () {
 //=========================================================
 // Admin
 //=========================================================
-Route::middleware('auth')->group(function () {
-    // お問い合わせ関連
-    Route::get('/admin/inquiry', [AdminInquiryController::class, 'index'])->name('admin.inquiry.index');
-});
+// Route::middleware('auth')->group(function () {
+
+// });
 
 //=========================================================
 // Guest
@@ -37,8 +36,10 @@ Route::get('/top', [PublicPageController::class, 'topPage'])->name('top');
 Route::get('/access', [PublicPageController::class, 'accessPage'])->name('access');
 Route::get('/rooms', [PublicPageController::class, 'roomsPage'])->name('rooms');
 // お問い合わせ
+Route::get('/inquiry', [InquiryController::class, 'index'])->name('admin.inquiry.index');
 Route::get('/inquiry/create', [InquiryController::class, 'create'])->name('inquiry.create');
 Route::post('/inquiry', [InquiryController::class, 'store'])->name('inquiry.store');
+Route::get('/inquiry/{inquiry}', [InquiryController::class, 'show'])->name('admin.inquiry.show');
 // 宿泊プラン
 
 // 予約

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Contracts\View\View;
@@ -21,17 +21,17 @@ class InquiryController extends Controller
         return view('inquiry.show');
     }
 
-    // // 登録画面
-    // public function create() : View
-    // {
-    //     return view('inquiry.create');
-    // }
+    // 登録画面
+    public function create() : View
+    {
+        return view('inquiry.create');
+    }
 
-    // // お問い合わせ内容登録処理
-    // public function store(StoreRequest $request) : View
-    // {
-    //     // お問い合わせ内容を登録する処理
+    // お問い合わせ内容登録処理
+    public function store(StoreRequest $request) : View
+    {
+        // お問い合わせ内容を登録する処理
 
-    //     return view('inquiry.thanks');
-    // }
+        return view('inquiry.thanks');
+    }
 }
