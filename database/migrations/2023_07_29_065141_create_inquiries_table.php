@@ -15,9 +15,10 @@ return new class extends Migration
     {
         Schema::create('inquiries', function (Blueprint $table) {
             $table->id();
-            $table->string('name', 100);
+            $table->string('name');
             $table->string('email');
-            $table->string('subject', 1500);
+            $table->string('subject');
+            $table->boolean('support_status')->default(false)->comment('対応ステータス');
             $table->timestamps();
         });
     }

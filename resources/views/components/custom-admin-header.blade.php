@@ -13,50 +13,38 @@
             <nav class="navbar navbar-expand-lg navbar-light">
                 <div class="container-fluid">
                     <div class="collapse navbar-collapse" id="navbarNav">
-                        @auth
-                            <ul class="navbar-nav">
-                                <li class="nav-item mx-2">
-                                    <div class="d-flex align-items-center">
-                                        <i class="fa-solid fa-house"></i>
-                                        <a class="nav-link" href="{{ route('admin.inquiry.index')}}">お問い合わせ一覧</a>
-                                    </div>
-                                </li>
-                            </ul>
-                        @else
-                            <ul class="navbar-nav">
-                                <li class="nav-item mx-2">
-                                    <div class="d-flex align-items-center">
-                                        <i class="fa-solid fa-house"></i>
-                                        <a class="nav-link" href="{{ route('top')}}">TOP</a>
-                                    </div>
-                                </li>
-                                <li class="nav-item mx-2">
-                                    <div class="d-flex align-items-center">
-                                        <i class="fa-solid fa-door-open"></i>
-                                        <a class="nav-link" href="{{ route('rooms')}}">ROOM</a>
-                                    </div>
-                                </li>
-                                <li class="nav-item mx-2">
-                                    <div class="d-flex align-items-center">
-                                        <i class="fa-solid fa-calendar-days"></i>
-                                        {{-- <a class="nav-link" href="{{ route('plans.index')}}">PLAN</a> --}}
-                                        <a class="nav-link" href="">PLAN</a>
-                                    </div>
-                                </li>
-                                <li class="nav-item mx-2">
-                                    <div class="d-flex align-items-center">
-                                        <i class="fa-solid fa-map-location-dot"></i>
-                                        <a class="nav-link" href="{{ route('access')}}">ACCESS</a>
-                                    </div>
-                                </li>
-                                <li class="nav-item mx-2">
-                                    <div class="d-flex align-items-center">
-                                        <i class="fa-solid fa-envelope"></i>
-                                        <a class="nav-link" href="{{ route('inquiry.create')}}">CONTACT</a>
-                                    </div>
-                                </li>
-                            </ul>
-                        @endauth
+                        <ul class="navbar-nav">
+                            <li class="nav-item mx-2">
+                                <div class="d-flex align-items-center">
+                                    <i class="fa-solid fa-house"></i>
+                                    <a class="nav-link" href="">予約一覧</a>
+                                </div>
+                            </li>
+                            <li class="nav-item mx-2">
+                                <div class="d-flex align-items-center">
+                                    <i class="fa-solid fa-door-open"></i>
+                                    <a class="nav-link" href="">予約枠一覧</a>
+                                </div>
+                            </li>
+                            <li class="nav-item mx-2">
+                                <div class="d-flex align-items-center">
+                                    <i class="fa-solid fa-calendar-days"></i>
+                                    <a class="nav-link" href="">宿泊プラン一覧</a>
+                                </div>
+                            </li>
+                            <li class="nav-item mx-2">
+                                <div class="d-flex align-items-center">
+                                    <i class="fa-solid fa-map-location-dot"></i>
+                                    <a class="nav-link" href="">お問い合わせ一覧</a>
+                                </div>
+                            </li>
+                            <li class="nav-item mx-2">
+                                <div class="d-flex align-items-center">
+                                    <i class="fa-solid fa-map-location-dot"></i>
+                                    <a class="nav-link" href="">部屋一覧</a>
+                                </div>
+                            </li>
+                        </ul>
                     </div>
                 </div>
             </nav>

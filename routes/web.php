@@ -38,8 +38,9 @@ Route::get('/rooms', [PublicPageController::class, 'roomsPage'])->name('rooms');
 // お問い合わせ
 Route::get('/inquiry', [InquiryController::class, 'index'])->name('admin.inquiry.index');
 Route::get('/inquiry/create', [InquiryController::class, 'create'])->name('inquiry.create');
-Route::post('/inquiry', [InquiryController::class, 'store'])->name('inquiry.store');
+Route::post('/inquiry/store', [InquiryController::class, 'store'])->name('inquiry.store');
 Route::get('/inquiry/{inquiry}', [InquiryController::class, 'show'])->name('admin.inquiry.show');
+Route::get('/inquiry/{inquiry}/change_status', [InquiryController::class, 'changeStatus'])->name('admin.inquiry.change_status');
 // 宿泊プラン
 
 // 予約
@@ -54,8 +55,6 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-    // お問い合わせ関連
-    Route::get('/inquiry/index', [InquiryController::class, 'index'])->name('inquiry.index');
 
 });
 

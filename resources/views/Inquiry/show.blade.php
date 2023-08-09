@@ -13,18 +13,15 @@
                             @csrf
                             <div class="mb-3">
                                 <label for="name" class="form-label">お名前</label>
-                                <input type="text" class="form-control" id="name" name="name" required>
+                                <input type="text" class="form-control" id="name" name="name" value="{{ $inquiry->name }}" required disabled>
                             </div>
                             <div class="mb-3">
                                 <label for="email" class="form-label">メールアドレス</label>
-                                <input type="email" class="form-control" id="email" name="email" required>
+                                <input type="email" class="form-control" id="email" name="email" value="{{ $inquiry->email }}" required disabled>
                             </div>
                             <div class="mb-3">
-                                <label for="subject" class="form-label">メッセージ</label>
-                                <textarea class="form-control" id="subject" name="subject" rows="3" required></textarea>
-                            </div>
-                            <div class="mb-3">
-                                <button type="submit" class="btn btn-primary">送信</button>
+                                <label for="subject" class="form-label"></label></label>
+                                <textarea class="form-control" id="subject" name="subject" rows="3" required>{{ $inquiry->subject }}</textarea>
                             </div>
                         </form>
                     </div>
