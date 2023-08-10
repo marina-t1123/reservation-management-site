@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PublicPageController;
 use App\Http\Controllers\InquiryController;
 use App\Http\Controllers\Admin\InquiryController as AdminInquiryController;
+use App\Http\Controllers\Admin\ReservationSlotController;
 
 /*
 |--------------------------------------------------------------------------
@@ -45,6 +46,11 @@ Route::get('/inquiry/{inquiry}/change_status', [InquiryController::class, 'chang
 
 // 予約
 
+// 予約枠
+Route::get('/reservation_slots', [ReservationSlotController::class, 'index'])->name('admin.reservation_slots.index');
+Route::get('/reservation_slots/create', [ReservationSlotController::class, 'create'])->name('admin.reservation_slots.create');
+Route::post('/reservation_slots/store', [ReservationSlotController::class, 'store'])->name('admin.reservation_slots.store');
+Route::delete('/reservation_slots/{reservationSlot}', [ReservationSlotController::class, 'destroy'])->name('admin.reservation_slots.destroy');
 
 Route::get('/dashboard', function () {
     return view('dashboard');
