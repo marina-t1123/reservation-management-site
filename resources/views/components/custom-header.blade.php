@@ -17,8 +17,37 @@
                             <ul class="navbar-nav">
                                 <li class="nav-item mx-2">
                                     <div class="d-flex align-items-center">
-                                        <i class="fa-solid fa-house"></i>
-                                        <a class="nav-link" href="{{ route('admin.inquiry.index')}}">お問い合わせ一覧</a>
+                                        <p class="nav-link">Admin Menu</p>
+                                    </div>
+                                </li>
+                                <li class="nav-item mx-2">
+                                    <div class="d-flex align-items-center">
+                                        <i class="fa-solid fa-envelope"></i>
+                                        <a class="nav-link" href="{{ route('admin.inquiry.index') }}">お問い合わせ</a>
+                                    </div>
+                                </li>
+                                <li class="nav-item mx-2">
+                                    <div class="d-flex align-items-center">
+                                        <i class="fa-solid fa-list"></i>
+                                        <a class="nav-link" href="{{ route('admin.reservation_slots.index') }}">予約枠</a>
+                                    </div>
+                                </li>
+                                <li class="nav-item mx-2">
+                                    <div class="d-flex align-items-center">
+                                        <i class="fa-solid fa-calendar-days"></i>
+                                        <a class="nav-link" href="">予約</a>
+                                    </div>
+                                </li>
+                                <li class="nav-item mx-2">
+                                    <div class="d-flex align-items-center">
+                                        <i class="fa-solid fa-star"></i>
+                                        <a class="nav-link" href="">宿泊プラン</a>
+                                    </div>
+                                </li>
+                                <li class="nav-item mx-2">
+                                    <div class="d-flex align-items-center">
+                                        <i class="fa-solid fa-door-open"></i>
+                                        <a class="nav-link" href="">部屋情報</a>
                                     </div>
                                 </li>
                             </ul>
