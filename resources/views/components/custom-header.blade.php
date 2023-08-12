@@ -41,7 +41,7 @@
                                 <li class="nav-item mx-2">
                                     <div class="d-flex align-items-center">
                                         <i class="fa-solid fa-star"></i>
-                                        <a class="nav-link" href="">宿泊プラン</a>
+                                        <a class="nav-link" href="{{ route('admin.plans.index') }}">宿泊プラン</a>
                                     </div>
                                 </li>
                                 <li class="nav-item mx-2">
@@ -68,8 +68,7 @@
                                 <li class="nav-item mx-2">
                                     <div class="d-flex align-items-center">
                                         <i class="fa-solid fa-calendar-days"></i>
-                                        {{-- <a class="nav-link" href="{{ route('plans.index')}}">PLAN</a> --}}
-                                        <a class="nav-link" href="">PLAN</a>
+                                        <a class="nav-link" href="{{ route('guest.plans.index')}}">PLAN</a>
                                     </div>
                                 </li>
                                 <li class="nav-item mx-2">

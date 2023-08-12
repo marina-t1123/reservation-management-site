@@ -4,8 +4,10 @@ use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PublicPageController;
 use App\Http\Controllers\InquiryController;
+use App\Http\Controllers\GuestPlanController;
 use App\Http\Controllers\Admin\InquiryController as AdminInquiryController;
 use App\Http\Controllers\Admin\ReservationSlotController;
+use App\Http\Controllers\Admin\PlanController;
 
 /*
 |--------------------------------------------------------------------------
@@ -25,9 +27,37 @@ Route::get('/', function () {
 //=========================================================
 // Admin
 //=========================================================
-// Route::middleware('auth')->group(function () {
+// 管理画面トップ(ログイン後遷移画面)
+Route::get('/dashboard', function () {
+    return view('dashboard');
+})->middleware(['auth', 'verified'])->name('dashboard');
 
-// });
+Route::middleware('auth')->group(function () {
+    // お問い合わせ
+    Route::get('/inquiry', [InquiryController::class, 'index'])->name('admin.inquiry.index');
+    Route::get('/inquiry/{inquiry}', [InquiryController::class, 'show'])->name('admin.inquiry.show');
+    Route::get('/inquiry/{inquiry}/change_status', [InquiryController::class, 'changeStatus'])->name('admin.inquiry.change_status');
+
+    // 宿泊プラン
+    Route::get('/plans', [PlanController::class, 'index'])->name('admin.plans.index');
+    Route::get('/plans/create', [PlanController::class, 'create'])->name('admin.plans.create');
+    Route::post('/plans/store', [PlanController::class, 'store'])->name('admin.plans.store');
+    // 宿泊プラン(料金)
+    Route::get('/plans/price/create/{plan}', [PlanController::class, 'createPrice'])->name('admin.plans.create_price');
+    Route::post('/plans/price/store/{plan}', [PlanController::class, 'storePrice'])->name('admin.plans.store_price');
+    Route::get('/plans/price/{plan}/show', [PlanController::class, 'showPrice'])->name('admin.plans.show_price');
+    Route::get('/plans/price/edit/{planPrice}', [PlanController::class, 'editPrice'])->name('admin.plans.edit_price');
+    Route::put('/plans/price/edit/{planPrice}', [PlanController::class, 'updatePrice'])->name('admin.plans.update_price');
+    Route::delete('/plans/price/delete/{planPrice}', [PlanController::class, 'deletePrice'])->name('admin.plans.delete_price');
+
+    // 予約枠
+    Route::get('/reservation_slots', [ReservationSlotController::class, 'index'])->name('admin.reservation_slots.index');
+    Route::get('/reservation_slots/create', [ReservationSlotController::class, 'create'])->name('admin.reservation_slots.create');
+    Route::post('/reservation_slots/store', [ReservationSlotController::class, 'store'])->name('admin.reservation_slots.store');
+    Route::delete('/reservation_slots/{reservationSlot}', [ReservationSlotController::class, 'destroy'])->name('admin.reservation_slots.destroy');
+
+    // 予約
+});
 
 //=========================================================
 // Guest
@@ -37,24 +67,12 @@ Route::get('/top', [PublicPageController::class, 'topPage'])->name('top');
 Route::get('/access', [PublicPageController::class, 'accessPage'])->name('access');
 Route::get('/rooms', [PublicPageController::class, 'roomsPage'])->name('rooms');
 // お問い合わせ
-Route::get('/inquiry', [InquiryController::class, 'index'])->name('admin.inquiry.index');
 Route::get('/inquiry/create', [InquiryController::class, 'create'])->name('inquiry.create');
 Route::post('/inquiry/store', [InquiryController::class, 'store'])->name('inquiry.store');
-Route::get('/inquiry/{inquiry}', [InquiryController::class, 'show'])->name('admin.inquiry.show');
-Route::get('/inquiry/{inquiry}/change_status', [InquiryController::class, 'changeStatus'])->name('admin.inquiry.change_status');
 // 宿泊プラン
+Route::get('/plans', [GuestPlanController::class, 'guestIndex'])->name('guest.plans.index');
+Route::get('/plans/{plan}', [GuestPlanController::class, 'guestShow'])->name('guest.plans.show');
 
-// 予約
-
-// 予約枠
-Route::get('/reservation_slots', [ReservationSlotController::class, 'index'])->name('admin.reservation_slots.index');
-Route::get('/reservation_slots/create', [ReservationSlotController::class, 'create'])->name('admin.reservation_slots.create');
-Route::post('/reservation_slots/store', [ReservationSlotController::class, 'store'])->name('admin.reservation_slots.store');
-Route::delete('/reservation_slots/{reservationSlot}', [ReservationSlotController::class, 'destroy'])->name('admin.reservation_slots.destroy');
-
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
     // プロフィール関連(デフォルト)
