@@ -25,7 +25,7 @@
                 </div>
                 {{-- @dd($rooms); --}}
                 <div class="card-body">
-                    <form action="{{ route('guest.plans.show_calender', $plan) }}" method="GET" id>
+                    <form action="{{ route('guest.plans.show_calender', $plan) }}" method="GET">
                         @csrf
                         <div class="mb-3">
                             <select name="room_type_id" class="form-control">
@@ -65,15 +65,12 @@
     {{-- 各空室状況での表示色 --}}
     <div id="color-legend">
         <div class="legend-item">
-            <span class="legend-color black"></span>
             <span class="legend-label">×：予約不可</span>
         </div>
         <div class="legend-item">
-            <span class="legend-color red"></span>
             <span class="legend-label">△：残りわずか（残り1室）</span>
         </div>
         <div class="legend-item">
-            <span class="legend-color green"></span>
             <span class="legend-label">○：予約可能</span>
         </div>
     </div>
