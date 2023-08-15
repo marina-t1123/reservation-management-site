@@ -24,6 +24,55 @@
 
      <!-- Scripts -->
      @vite(['resources/css/app.css', 'resources/js/app.js'])
+
+
+    <!-- FullCalender導入 -->
+     
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous">
+    </script>
+    <style>
+        #color-legend {
+            display: flex;
+            justify-content: center;
+            margin-top: 10px;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            margin-right: 10px;
+        }
+
+        .legend-color {
+            width: 20px;
+            height: 20px;
+            display: inline-block;
+            margin-right: 5px;
+        }
+
+        .legend-color.black {
+            background-color: black;
+        }
+
+        .legend-color.red {
+            background-color: red;
+        }
+
+        .legend-color.yellow {
+            background-color: yellow;
+        }
+
+        .legend-color.green {
+            background-color: green;
+        }
+
+        .legend-label {
+            font-size: 14px;
+        }
+    </style>
 </head>
 <body>
     <div id="app">

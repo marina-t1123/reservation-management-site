@@ -39,7 +39,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/inquiry/{inquiry}/change_status', [InquiryController::class, 'changeStatus'])->name('admin.inquiry.change_status');
 
     // 宿泊プラン
-    Route::get('/plans', [PlanController::class, 'index'])->name('admin.plans.index');
+    Route::get('/plans/admin/index', [PlanController::class, 'index'])->name('admin.plans.index');
     Route::get('/plans/create', [PlanController::class, 'create'])->name('admin.plans.create');
     Route::post('/plans/store', [PlanController::class, 'store'])->name('admin.plans.store');
     // 宿泊プラン(料金)
@@ -72,7 +72,7 @@ Route::post('/inquiry/store', [InquiryController::class, 'store'])->name('inquir
 // 宿泊プラン
 Route::get('/plans', [GuestPlanController::class, 'guestIndex'])->name('guest.plans.index');
 Route::get('/plans/{plan}', [GuestPlanController::class, 'guestShow'])->name('guest.plans.show');
-
+Route::get('/plans/{plan}/calender', [GuestPlanController::class, 'guestShowCalender'])->name('guest.plans.show_calender');
 
 Route::middleware('auth')->group(function () {
     // プロフィール関連(デフォルト)
