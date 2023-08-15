@@ -8,6 +8,7 @@ use App\Http\Controllers\GuestPlanController;
 use App\Http\Controllers\Admin\InquiryController as AdminInquiryController;
 use App\Http\Controllers\Admin\ReservationSlotController;
 use App\Http\Controllers\Admin\PlanController;
+use App\Http\Controllers\ReservationController;
 
 /*
 |--------------------------------------------------------------------------
@@ -39,7 +40,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/inquiry/{inquiry}/change_status', [InquiryController::class, 'changeStatus'])->name('admin.inquiry.change_status');
 
     // 宿泊プラン
-    Route::get('/plans', [PlanController::class, 'index'])->name('admin.plans.index');
+    Route::get('/plans/admin/index', [PlanController::class, 'index'])->name('admin.plans.index');
     Route::get('/plans/create', [PlanController::class, 'create'])->name('admin.plans.create');
     Route::post('/plans/store', [PlanController::class, 'store'])->name('admin.plans.store');
     // 宿泊プラン(料金)
@@ -72,6 +73,14 @@ Route::post('/inquiry/store', [InquiryController::class, 'store'])->name('inquir
 // 宿泊プラン
 Route::get('/plans', [GuestPlanController::class, 'guestIndex'])->name('guest.plans.index');
 Route::get('/plans/{plan}', [GuestPlanController::class, 'guestShow'])->name('guest.plans.show');
+Route::get('/plans/{plan}/calender', [GuestPlanController::class, 'guestShowCalender'])->name('guest.plans.show_calender');
+
+// 予約
+Route::get('/reservation/{planPriceDate}', [ReservationController::class, 'create'])->name('reservation.create'); // 予約新規作成画面
+Route::post('/reservation/{planPriceDate}/confirm', [ReservationController::class, 'createConfirm'])->name('reservation.create_confirm'); // 予約フォーム情報一時保存と確認画面遷移
+Route::get('/reservation/{planPriceDate}/confirm/show', [ReservationController::class, 'showConfirm'])->name('reservation.show_confirm'); // 予約フォーム情報確認画面
+// Route::post('/reservation/{planPrices}/store', [ReservationController::class, 'store'])->name('reservation.store');
+Route::resource('/reservation', ReservationController::class)->except(['create', 'store']);
 
 
 Route::middleware('auth')->group(function () {

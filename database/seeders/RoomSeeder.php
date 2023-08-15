@@ -16,32 +16,32 @@ class RoomSeeder extends Seeder
     {
         \DB::table('rooms')->insert([
             1 => [
-                'type' => 'シングル',
+                'type' => 1,
                 'number' => 101,
                 'max_people' => 1,
             ],
             2 => [
-                'type' => 'シングル',
+                'type' => 1,
                 'number' => 102,
                 'max_people' => 1,
             ],
             3 => [
-                'type' => 'ダブル',
+                'type' => 2,
                 'number' => 201,
                 'max_people' => 2,
             ],
             4 => [
-                'type' => 'ダブル',
+                'type' => 2,
                 'number' => 202,
                 'max_people' => 2,
             ],
             5 => [
-                'type' => 'ツイン',
+                'type' => 3,
                 'number' => 301,
                 'max_people' => 3,
             ],
             6 => [
-                'type' => 'ツイン',
+                'type' => 3,
                 'number' => 302,
                 'max_people' => 3,
             ],

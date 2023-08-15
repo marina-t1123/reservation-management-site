@@ -17,7 +17,7 @@
                 <div class="card-body">
                     <h5 class="card-title">{{ $plan->title }}</h5>
                     <p class="card-text">{{ $plan->explanation }}</p>
-                    <a href="" class="card-link">このプランで予約をする</a>
+                    <a href="{{ route('guest.plans.show_calender', $plan)}}" class="card-link">このプランで予約をする</a>
                 </div>
             </div>
         </div>
