@@ -76,10 +76,13 @@ Route::get('/plans/{plan}', [GuestPlanController::class, 'guestShow'])->name('gu
 Route::get('/plans/{plan}/calender', [GuestPlanController::class, 'guestShowCalender'])->name('guest.plans.show_calender');
 
 // 予約
-Route::get('/reservation/{planPriceDate}', [ReservationController::class, 'create'])->name('reservation.create'); // 予約新規作成画面
-Route::post('/reservation/{planPriceDate}/confirm', [ReservationController::class, 'createConfirm'])->name('reservation.create_confirm'); // 予約フォーム情報一時保存と確認画面遷移
-Route::get('/reservation/{planPriceDate}/confirm/show', [ReservationController::class, 'showConfirm'])->name('reservation.show_confirm'); // 予約フォーム情報確認画面
-// Route::post('/reservation/{planPrices}/store', [ReservationController::class, 'store'])->name('reservation.store');
+// 予約新規作成画面
+Route::get('/reservation/{planPriceDate}', [ReservationController::class, 'create'])->name('reservation.create');
+// 予約フォーム情報一時保存と確認画面遷移
+Route::post('/reservation/{planPriceDate}/confirm', [ReservationController::class, 'createConfirm'])->name('reservation.create_confirm');
+// 予約フォーム情報確認画面
+Route::get('/reservation/{planPriceDate}/confirm/show', [ReservationController::class, 'showConfirm'])->name('reservation.show_confirm');
+Route::post('/reservation/{planPriceDate}/store', [ReservationController::class, 'store'])->name('reservation.store');
 Route::resource('/reservation', ReservationController::class)->except(['create', 'store']);
 
 

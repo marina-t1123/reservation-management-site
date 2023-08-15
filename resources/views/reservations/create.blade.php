@@ -55,9 +55,9 @@
                             </div>
                         </form>
                         <!-- 空室カレンダーのページへ戻る -->
-                        <div class="mb-3">
+                        {{-- <div class="mb-3">
                             <a href="{{ route('guest.plans.show_calender', $planPriceDate->plan) }}" class="btn btn-secondary">戻る</a>
-                        </div>
+                        </div> --}}
                     </div>
                 </div>
             </div>

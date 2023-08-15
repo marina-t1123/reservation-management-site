@@ -6,6 +6,7 @@ use App\Models\Reservation;
 use Illuminate\Http\Request;
 use App\Models\PlanPrice;
 use App\Http\Requests\ReservationController\ConfirmRequest;
+use App\Http\Requests\ReservationController\StoreRequest;
 use Carbon\Carbon;
 
 class ReservationController extends Controller
@@ -31,7 +32,7 @@ class ReservationController extends Controller
         $startDate = Carbon::createFromDate($planPriceDate->reservationSlot->reservation_slot_date)->toDateString();
         $defaultEndDate = Carbon::parse($startDate)->addDay(1)->toDateString();
 
-        // dd($defaultEndDate);
+        // dd($planPriceDate); PlanPriceモデルのインスタンスが入っている
         return view('reservations.create', [
             'planPriceDate' => $planPriceDate,
             'defaultEndDate' => $defaultEndDate,
@@ -43,12 +44,14 @@ class ReservationController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function createConfirm(ConfirmRequest $request, $planPriceDate)
+    public function createConfirm(ConfirmRequest $request, PlanPrice $planPriceDate)
     {
         // 送信された内容をセッションに保存
         $request->session()->put('guestDate', $request->all());
 
-        return to_route('reservations.show_confirm', [
+        // dd($planPriceDate);
+
+        return to_route('reservation.show_confirm', [
             'planPriceDate' => $planPriceDate,
         ]);
     }
@@ -57,11 +60,11 @@ class ReservationController extends Controller
      * 確認画面表示
      *
      */
-    public function showConfirm($planPriceDate)
+    public function showConfirm(PlanPrice $planPriceDate)
     {
         // セッションからデータを取得
         $guestDate = session()->get('guestDate');
-        // dd($guestDate);
+        // ddd($planPriceDate);
         return view('reservations.confirm', [
             'guestDate' => $guestDate,
             'planPriceDate' => $planPriceDate,
@@ -74,7 +77,7 @@ class ReservationController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreRequest $request,)
     {
         //
     }

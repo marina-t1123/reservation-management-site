@@ -25,6 +25,8 @@ class DatabaseSeeder extends Seeder
             UserSeeder::class,
             RoomSeeder::class,
             ReservationSlotSeeder::class,
+            PlanSeeder::class,
+            PlanPriceSeeder::class,
         ]);
     }
 }
