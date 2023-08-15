@@ -27,31 +27,7 @@ class ReservationController extends Controller
      */
     public function create(PlanPrice $planPriceDate)
     {
-        // dd($planPriceDate);
-        // 新規作成画面で必要なデータ
-        // planPriceの部屋タイプと予約枠日時とプラン名が$planPriceと同じである予約枠の宿泊料金プラン(planPrice)を取得する
-        // $date = $planPriceDate->reservationSlot->reservation_slot_date;
-        // $roomType = $planPriceDate->reservationSlot->room->type;
-        // dd($date, $roomType);
-        // $planPrices = PlanPrice::where('plan_id', $planPriceDate->plan_id)
-        //                 ->whereHas('reservationSlot', function($query) use($roomType, $date) {
-        //                     $query->where('reservation_slot_date', '=', $date);
-        //                     $query->whereHas('room', function($query) use($roomType, $date) {
-        //                         $query->where('type', '=', $roomType);
-        //                     });
-        //                 })->get();
-        // dd($planPrices);
-
-        // 部屋番号を取得する
-        // foreach($planPrices as $planPrice){
-        //     $rooms[] = $planPrice->reservationSlot->room;
-        // }
-        // dd($rooms);
-
-        // チェックイン日を取得する
-        // $startDate = Carbon::createFromDate($planPriceDate->reservationSlot->reservation_slot_date);
-        // $defaultEndDate = $startDate->copy()->addDay(1)->toDateString();
-
+        // チェックアウト日のデフォルト値を設定(チェックイン日の翌日)
         $startDate = Carbon::createFromDate($planPriceDate->reservationSlot->reservation_slot_date)->toDateString();
         $defaultEndDate = Carbon::parse($startDate)->addDay(1)->toDateString();
 
