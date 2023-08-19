@@ -44,22 +44,48 @@ class GuestPlanController extends Controller
     // 空室カレンダー表示
     public function guestShowCalender(Request $request, plan $plan) : View
     {
-        // 空室カレンダーのページで部屋タイプが選択されていたら、その部屋タイプに紐づく予約枠を取得する
+        // 予約を作成する際に、下記の条件で予約枠を取得する
+        // A:宿泊プランページで選択した宿泊プラン
+        // B:空室カレンダーページで選択した部屋タイプ
+        // C:A,Bで取得した
+        // D:
+        // 今回は、(A and B) and (C or D)の条件で予約枠を取得する
+        // ３つ以上の条件で取得する場合は、()で囲む必要があるのを注意する。60と61行目の()[or]を外すと、正しく取得できない
         $roomType = $request->input('room_type_id'); // シングル、ダブル、ツインのどれかが入っている
         if(!empty($roomType)) {
+            // $planPrices = PlanPrice::where('plan_id', $plan->id)
+            //             ->whereHas('reservationSlot.room', function($query) use($roomType) {
+            //                 $query->where('type', '=', $roomType);
+            //             })->where(function($query) {
+            //                 $query->doesntHave('reservations')
+            //                     ->orWhereRelation('reservations', 'cancel_at', 0);
+            //             })->get();
             $planPrices = PlanPrice::where('plan_id', $plan->id)
-                        ->whereHas('reservationSlot.room', function($query) use($roomType) {
+                        ->whereHas('reservationSlot.room', function($query) use($roomType){
                             $query->where('type', '=', $roomType);
+                        })->where(function($query) {
+                            $query->doesntHave('reservations')
+                                ->orWhereHas('reservations', function ($subQuery) { // $subQueryには、Illuminate\Database\Eloquent\Builderが入っている
+                                    $subQuery->where('cancel_at', '!=', 0);
+                                });
                         })->get();
-                        // dd('部屋タイプ選択済み');
-                        // dd($planPrices);
         } else { // 部屋タイプが選択されていなかったら、シングルルームの予約枠を取得する
+            // $planPrices = PlanPrice::where('plan_id', $plan->id)
+            //             ->whereHas('reservationSlot.room', function($query) {
+            //                 $query->where('type', '=', 1);
+            //             })->where(function($query) {
+            //                 $query->doesntHave('reservations')
+            //                     ->orWhereRelation('reservations', 'cancel_at', 0);
+            //             })->get();
             $planPrices = PlanPrice::where('plan_id', $plan->id)
-                        ->whereHas('reservationSlot.room', function($query) {
+                        ->whereHas('reservationSlot.room', function($query){
                             $query->where('type', '=', 1);
+                        })->where(function($query) {
+                            $query->doesntHave('reservations')
+                                ->orWhereHas('reservations', function ($subQuery) { // $subQueryには、Illuminate\Database\Eloquent\Builderが入っている
+                                    $subQuery->where('cancel_at', '!=', 0);
+                                });
                         })->get();
-                        // dd('部屋タイプ未選択');
-                        // dd($planPrices);
         }
 
         // TO DO
@@ -67,10 +93,19 @@ class GuestPlanController extends Controller
         $groupedPlanPrices = $planPrices->groupBy(function (PlanPrice $planPrice) {
             return $planPrice->reservationSlot->reservation_slot_date;
         });
-        // dd($groupedPlanPrices);
+        dd($groupedPlanPrices);
+
+        // カレンダーで表示するべき予約枠がない場合、カレンダーに×を表示する
+        if($groupedPlanPrices->isEmpty()) {
+            return view('plans.calendar', [
+                'plan' => $plan,
+                'planPrices' => $planPrices,
+                'calenderData' => [],
+                'rooms' => Room::ROOM_TYPE,
+            ]);
+        }
 
         // カレンダーの表示項目の配列を初期化
-
         $calenderData = [];
         // 上記で取得した、部屋タイプに紐づく予約枠の配列を繰り返し処理を使って、カレンダーの表示項目の配列に格納する
         // カレンダーの表示項目：空室状況、予約ページリンク
@@ -91,6 +126,7 @@ class GuestPlanController extends Controller
             // ここでカレンダー内のulrで使用するPlanPrice(紐づいているReservationSlot)を取得する
             // $planPriceには、PlanPriceモデルのインスタンスが複数(Collection)入っている場合があるので、最初の要素を取得する
             $planPriceDate = $planPrice->first();
+            // dd($planPriceDate);
 
             // カレンダーの表示項目の配列にそれぞれ必要な情報を格納する(多次元配列の一番最後に要素を追加する)
             $calenderData[] = ['title' => $roomsCount, 'start' => $groupedPlanPrice, 'url' => route('reservation.create', $planPriceDate)];

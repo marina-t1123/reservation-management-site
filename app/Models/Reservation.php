@@ -13,6 +13,16 @@ class Reservation extends Model
         'id',
     ];
 
+    // 予約の定数
+    public const CANCEL_STATUS_FALSE = 0;
+    public const CANCEL_STATUS_TRUE = 1;
+
+    public const CANCEL_STATUS = [
+        self::CANCEL_STATUS_FALSE => '予約中',
+        self::CANCEL_STATUS_TRUE => 'キャンセル済み'
+    ];
+
+
     // リレーション
     public function planPrice()
     {

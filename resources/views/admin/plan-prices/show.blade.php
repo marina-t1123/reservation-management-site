@@ -81,7 +81,7 @@
                                                 <a href="{{ route('admin.plans.edit_price', $planPrice) }}"><i class="fa-solid fa-pen-to-square"></i></a>
                                             </td>
                                             <td>
-                                                <form action="{{ route('admin.plans.delete_price', $plan) }}" method="POST">
+                                                <form action="{{ route('admin.plans.delete_price', $planPrice) }}" method="POST">
                                                     @csrf
                                                     @method('DELETE')
                                                     <button type="submit"><i class="fa-solid fa-trash-can"></i></button>
