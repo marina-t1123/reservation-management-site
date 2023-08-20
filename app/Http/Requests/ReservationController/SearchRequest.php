@@ -4,7 +4,7 @@ namespace App\Http\Requests\ReservationController;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class ChangeMemoRequest extends FormRequest
+class SearchRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,7 +24,7 @@ class ChangeMemoRequest extends FormRequest
     public function rules()
     {
         return [
-            'memo' => ['required', 'string', 'max:1000'],
+            // 'plan' => ['required', 'string', 'max:255'],
         ];
     }
 }

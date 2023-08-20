@@ -163,17 +163,6 @@ class GuestReservationController extends Controller
 
 
         // 予約完了後にメールを送信する
-        // 1泊2日の場合のメール送信
-        // if( !$reservation) {
-        //     \Mail::to($guestData->email)->send(new ReservationCreateMail($reservation));
-        //     \Mail::to('tm.274795@gmail.com')->send(new ReservationCreateMail($reservation));
-        // }
-        // 2泊3日の場合のメール送信
-        // if( $reservations->isNotEmpty() ) {
-            // \Mail::to($guestData['email'])->send(new ReservationCreateMail($reservation));
-            // \Mail::to('tm.274795@gmail.com')->send(new ReservationCreateMail($reservation));
-        // }
-
         // \Mail::to($guestData['email'])->send(new ReservationCreateMail($reservation));
         // \Mail::to('tm.274795@gmail.com')->send(new ReservationCreateMail($reservation));
 

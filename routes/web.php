@@ -7,6 +7,7 @@ use App\Http\Controllers\InquiryController;
 use App\Http\Controllers\GuestPlanController;
 use App\Http\Controllers\Admin\InquiryController as AdminInquiryController;
 use App\Http\Controllers\Admin\ReservationSlotController;
+use App\Http\Controllers\Admin\ReservationController;
 use App\Http\Controllers\Admin\PlanController;
 use App\Http\Controllers\GuestReservationController;
 
@@ -61,7 +62,7 @@ Route::middleware('auth')->prefix('admin')->group(function () {
     Route::get('/reservations/index', [ReservationController::class, 'index'])->name('admin.reservations.index');
     Route::get('/reservations/{reservation}', [ReservationController::class, 'show'])->name('admin.reservations.show');
     Route::put('/reservations/{reservation}/memo', [ReservationController::class, 'changeMemo'])->name('admin.reservations.change_memo');
-    Route::put('/reservations/{reservation}/status', [ReservationController::class, 'changeCancelStatus'])->name('admin.reservations.change_status');
+    Route::put('/reservations/{reservation}/status', [ReservationController::class, 'changeStatus'])->name('admin.reservations.change_status');
 });
 
 //=========================================================

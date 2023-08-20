@@ -93,7 +93,7 @@ class GuestPlanController extends Controller
         $groupedPlanPrices = $planPrices->groupBy(function (PlanPrice $planPrice) {
             return $planPrice->reservationSlot->reservation_slot_date;
         });
-        dd($groupedPlanPrices);
+        // dd($groupedPlanPrices);
 
         // カレンダーで表示するべき予約枠がない場合、カレンダーに×を表示する
         if($groupedPlanPrices->isEmpty()) {
