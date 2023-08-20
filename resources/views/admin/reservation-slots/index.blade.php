@@ -27,7 +27,7 @@
                                     @foreach($reservationSlots as $reservationSlot)
                                         <tr>
                                             <th scope="row"></th>
-                                            <td>{{ $reservationSlot->room->type}}</td>
+                                            <td>{{ App\Models\Room::ROOM_TYPE[$reservationSlot->room->type] }}</td>
                                             <td>{{ $reservationSlot->room->number}}</td>
                                             <td>{{ $reservationSlot->room->max_people}}</td>
                                             <td>{{ $reservationSlot->reservation_slot_date}}</td>

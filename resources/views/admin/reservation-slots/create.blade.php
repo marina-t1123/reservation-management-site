@@ -15,7 +15,7 @@
                                 <label for="name" class="form-label">部屋情報</label>
                                 <select name="room_id" id="room_id" class="form-control">
                                     @foreach($rooms as $room)
-                                        <option value="{{ $room->id }}">{{ $room->type }} : {{ $room->number }}</option>
+                                        <option value="{{ $room->id }}">{{ App\Models\Room::ROOM_TYPE[$room->type] }} : {{ $room->number }}号室</option>
                                     @endforeach
                                 </select>
                             </div>

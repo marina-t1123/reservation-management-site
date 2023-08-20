@@ -20,6 +20,9 @@
                                 <p>プラン料金：{{ $planPriceDate->price }}</p>
                             </div>
                             <div class="mb-3">
+                                <p>部屋タイプ：{{ App\Models\Room::ROOM_TYPE[$planPriceDate->reservationSlot->room->type] }} {{ $planPriceDate->reservationSlot->room->number }}号室</p>
+                            </div>
+                            <div class="mb-3">
                                 <p>チェックイン：{{ $planPriceDate->reservationSlot->reservation_slot_date }}</p>
                             </div>
                             <div class="mb-3">

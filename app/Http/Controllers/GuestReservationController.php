@@ -128,29 +128,23 @@ class GuestReservationController extends Controller
                 'memo' => '',
                 'cancel_at' => 0,
             ]);
-        }
-        // } else {
-        //     // チャックアウト日がチェックイン日の翌日以降だった場合
-        //     // チェックイン日とチャックアウト日の日付の差分を取得
-        //     $diffDays = $checkInDay->diffInDays($checkOutDay);
-        //     // dd($diffDays);
+        } else {
+            // dd('チェックアウト日がチェックイン日の翌日以降だった場合');
 
-        //     // チェックイン日とチャックアウト日の日付の差分の数だけ予約を作成する
-        //     for($i = 0; $i <= $diffDays; $i++) {
-        //         // 予約枠を取得
-        //         $reservationSlot = $planPriceDate->reservationSlot;
-        //         // 予約を作成
-        //         $reservation = $reservationSlot->reservations()->create([
-        //             'check_in_date' => $checkInDay->addDay($i),
-        //             'check_out_date' => $checkOutDate,
-        //             'plan_price_id' => $planPriceDate->id,
-        //             'name' => $guestData['name'],
-        //             'email' => $guestData['email'],
-        //             'tel' => $guestData['tel'],
-        //             'memo' => $guestData['memo'],
-        //         ]);
-        //     }
-        // }
+            // 予約フォームから送信されたチェックアウト日をCarbonインスタンスに変換
+            $checkOutDay = new Carbon($guestData['end_date']);
+
+            // チャックアウト日がチェックイン日の翌日以降だった場合
+            // reservation(予約)をチェックイン日とチャックアウト日までの各PlanPriceに紐ずくreservation(予約)を作成する
+            // チェックイン日とチャックアント日の日付・部屋タイプ・プランIDが一致するplanPriceを取得
+            $planPrices = PlanPrice::whereRelation('reservationSlot', 'reservation_slot_date', '>=', $checkInDate)
+                                    ->whereRelation('reservationSlot', 'reservation_slot_date', '<=', $checkOutDay)
+                                    ->whereRelation('reservationSlot.room', 'type', $planPriceDate->reservationSlot->room->type)
+                                    ->whereRelation('plan', 'id', $planPriceDate->plan_id)
+                                    ->get();
+            dd($planPrices);
+
+        }
 
         // reservation(予約)をチェックイン日のみ作成する
 

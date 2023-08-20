@@ -28,7 +28,7 @@
                                 <label for="name" class="form-label">予約枠選択</label>
                                 <select name="reservation_slot_id" id="reservation_slot_id" class="form-control">
                                     @foreach($reservationSlots as $reservationSlot)
-                                        <option value="{{ $reservationSlot->id }}">{{ $reservationSlot->room->type }} : {{ $reservationSlot->room->number }}</option>
+                                        <option value="{{ $reservationSlot->id }}">{{ App\Models\Room::ROOM_TYPE[$reservationSlot->room->type] }} : {{ $reservationSlot->room->number }}号室</option>
                                         @include('components.error', ['name' => 'reservation_slot_id'])
                                     @endforeach
                                 </select>
