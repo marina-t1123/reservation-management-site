@@ -63,7 +63,7 @@ class PlanController extends Controller
             // 送信された画像の登録処理
             if ($request->hasFile('images')) {
                 foreach ($request->file('images') as $image) {
-                    $path = $image->store('public/img');
+                    $path = $image->store('img', 'public');
                     $plan->planImages()->create(['path' => $path]);
                 }
             }
@@ -74,6 +74,7 @@ class PlanController extends Controller
     // 宿泊プラン削除処理
     public function destroy(ReservationSlot $reservationSlot) : RedirectResponse
     {
+        dd($reservationSlot);
         $reservationSlot->delete();
         return to_route('admin.reservation_slots.index')->with('flash_message', '予約枠を削除しました。');
     }

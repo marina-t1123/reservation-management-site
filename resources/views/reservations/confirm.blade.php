@@ -10,7 +10,7 @@
                     </div>
                     <div class="card-body">
                         <p class="text-center">下記の予約内容でお間違いないかご確認下さい。</p>
-                        <form action="{{ route('reservation.store', 9)}}" method="post">
+                        <form action="{{ route('reservation.store', $planPriceDate)}}" method="post">
                             {{-- @dd($planPriceDate) --}}
                             @csrf
                             <div class="mb-3">

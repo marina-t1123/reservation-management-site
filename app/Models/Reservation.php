@@ -24,13 +24,19 @@ class Reservation extends Model
 
 
     // リレーション
-    public function planPrice()
+    // 予約(reservation)と宿泊プランプライス(planPrice)の中間テーブル
+    public function reservationPlanPrices()
     {
-        return $this->belongsTo(PlanPrice::class);
+        return $this->hasMany(ReservationPlanPrice::class);
     }
 
     public function guest()
     {
         return $this->belongsTo(Guest::class);
+    }
+
+    public function plan()
+    {
+        return $this->belongsTo(Plan::class);
     }
 }

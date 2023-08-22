@@ -48,9 +48,8 @@ class GuestPlanController extends Controller
         // 予約を作成する際に、下記の条件で予約枠を取得する
         // A:宿泊プランページで選択した宿泊プラン
         // B:空室カレンダーページで選択した部屋タイプ
-        // C:A,Bで取得した条件に当てはまる予約枠に紐づく予約がないもの
-        // D:reservationテーブルのcancel_atカラムが0のもの
-        // 今回は、(A and B) and (C or D)の条件で予約枠を取得する
+        // C:reservation_slotテーブルのis_enabledカラムが1のもの(予約枠が空いているかどうか)
+        // (A and B) and C の条件で予約枠を取得する
         // ３つ以上の条件で取得する場合は、()で囲む必要があるのを注意する。()の条件がうまく条件指定しないと正しく取得できない。
         $roomType = $request->input('room_type_id'); // シングル、ダブル、ツインのどれかが入っている
         if(!empty($roomType)) { // 部屋タイプが選択されていたら、選択された部屋タイプの予約枠を取得する
@@ -61,13 +60,6 @@ class GuestPlanController extends Controller
                             $query->where('type', '=', $roomType);
                         })->get();
         } else { // 部屋タイプが選択されていなかったら、シングルルームの予約枠を取得する
-            $planPrices = PlanPrice::where('plan_id', $plan->id)
-                        ->whereHas('reservationSlot.room', function($query) {
-                            $query->where('type', '=', 1);
-                        })->where(function($query) {
-                            $query->doesntHave('reservations')
-                                ->orWhereRelation('reservations', 'cancel_at', 0);
-                        })->get();
             $planPrices = PlanPrice::where('plan_id', $plan->id)
                         ->whereHas('reservationSlot', function($query){
                             $query->where('is_enabled', '=', 1);

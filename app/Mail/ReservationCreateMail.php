@@ -30,7 +30,7 @@ class ReservationCreateMail extends Mailable
     {
         return $this
             ->from('tm.274795@gamil.com')
-            ->view('reservation.create-mail')
+            ->view('reservations.create-mail')
             ->with([
                 'reservation' => $this->reservation,
             ])

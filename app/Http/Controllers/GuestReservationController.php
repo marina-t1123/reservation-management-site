@@ -6,6 +6,7 @@ use App\Models\Reservation;
 use Illuminate\Http\Request;
 use App\Models\PlanPrice;
 use App\Models\Guest;
+use App\Models\ReservationPlanPrice;
 use App\Mail\ReservationCreateMail;
 use App\Http\Requests\ReservationController\ConfirmRequest;
 use Carbon\Carbon;
@@ -123,42 +124,78 @@ class GuestReservationController extends Controller
             ]);
             // 予約を作成
             $reservation = $planPriceDate->reservations()->create([
-                'plan_price_id' => $planPriceDate->id,
+                'plan_id' => $planPriceDate->plan_id, // ここはplanPriceDateのplan_idを取得する
                 'guest_id' => $guest->id,
+                'checkin_date' => $checkInDate,
+                'checkout_date' => $checkOutDate,
                 'memo' => '',
                 'cancel_at' => 0,
             ]);
-        } else {
-            // dd('チェックアウト日がチェックイン日の翌日以降だった場合');
+            // 予約・宿泊プランテーブルの中間テーブルにデータを保存
+            ReservationPlanPrice::create([
+                'reservation_id' => $reservation->id,
+                'plan_price_id' => $planPriceDate->id,
+            ]);
+            // reservationSlot(予約枠)のis_enabledカラム(有効カラム)をfalseに更新
+            // この処理をすることで予約枠が無効になり、空室カレンダーで予約枠が表示されなくなる
+            $planPriceDate->reservationSlot->update([
+                'is_enabled' => 0,
+            ]);
+        } else { // チェックアウト日がチェックイン日の翌日以降だった場合
 
             // 予約フォームから送信されたチェックアウト日をCarbonインスタンスに変換
             $checkOutDay = new Carbon($guestData['end_date']);
+            // チェックアウト日の日付を1日前に変更して、予約枠の取得に使用する
+            // この処理をしないと、２泊3日の宿泊予定が３泊4日になってしまう
+            $checkOutDay->copy()->subDay()->format('Y-m-d');
+            // dd($checkOutDay);
 
-            // チャックアウト日がチェックイン日の翌日以降だった場合
             // reservation(予約)をチェックイン日とチャックアウト日までの各PlanPriceに紐ずくreservation(予約)を作成する
-            // チェックイン日とチャックアント日の日付・部屋タイプ・プランIDが一致するplanPriceを取得
+            // チェックイン日とチェックアウト日の日付・部屋ID・プランIDが一致するplanPriceを取得
             $planPrices = PlanPrice::whereRelation('reservationSlot', 'reservation_slot_date', '>=', $checkInDate)
                                     ->whereRelation('reservationSlot', 'reservation_slot_date', '<=', $checkOutDay)
-                                    ->whereRelation('reservationSlot.room', 'type', $planPriceDate->reservationSlot->room->type)
+                                    ->whereRelation('reservationSlot.room', 'id', $planPriceDate->reservationSlot->room_id)
                                     ->whereRelation('plan', 'id', $planPriceDate->plan_id)
                                     ->get();
-            dd($planPrices);
 
+            // 宿泊者情報を保存
+             $guest = Guest::create([
+                'name' => $guestData['name'],
+                'email' => $guestData['email'],
+                'tel' => $guestData['tel'],
+                'address' => $guestData['address'],
+            ]);
+
+            foreach($planPrices as $planPrice)
+            {
+                // 予約を作成
+                $reservation = Reservation::create([
+                    'plan_id' => $planPriceDate->plan_id, // ここはplanPriceDateのplan_idを取得する
+                    'guest_id' => $guest->id,
+                    'checkin_date' => $checkInDate,
+                    'checkout_date' => $checkOutDate,
+                    'memo' => '',
+                    'cancel_at' => 0,
+                ]);
+                // 予約・宿泊プランテーブルの中間テーブルにデータを保存
+                ReservationPlanPrice::create([
+                    'reservation_id' => $reservation->id,
+                    'plan_price_id' => $planPrice->id,
+                ]);
+                // reservationSlot(予約枠)のis_enabledカラム(有効カラム)をfalseに更新
+                // この処理をすることで予約枠が無効になり、空室カレンダーで予約枠が表示されなくなる
+                $planPrice->reservationSlot->update([
+                    'is_enabled' => 0,
+                ]);
+            }
         }
 
-        // reservation(予約)をチェックイン日のみ作成する
-
-
-        // チャックアウト日がチェックイン日の翌日以降だった場合
-        // reservation(予約)をチェックイン日とチャックアウト日までの各PlanPriceに紐ずくreservation(予約)を作成する
-
-        // チェックイン日とチャックアント日の日付・部屋タイプ・プランIDが一致する予約枠を取得
-
-
+        // セッションを空にする
+        session()->forget('guestData');
 
         // 予約完了後にメールを送信する
-        // \Mail::to($guestData['email'])->send(new ReservationCreateMail($reservation));
-        // \Mail::to('tm.274795@gmail.com')->send(new ReservationCreateMail($reservation));
+        \Mail::to($guestData['email'])->send(new ReservationCreateMail($reservation));
+        \Mail::to('tm.274795@gmail.com')->send(new ReservationCreateMail($reservation));
 
 
         return redirect()->route('top')->with('flash_message', '予約が確定されました。');

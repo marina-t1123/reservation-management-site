@@ -25,9 +25,9 @@ class PlanPrice extends Model
         return $this->belongsTo(ReservationSlot::class);
     }
 
-    // 予約
-    public function reservations()
+    // 予約(reservation)と宿泊プランプライス(planPrice)の中間テーブル
+    public function reservationPlanPrices()
     {
-        return $this->hasMany(Reservation::class);
+        return $this->hasMany(ReservationPlanPrice::class);
     }
 }
