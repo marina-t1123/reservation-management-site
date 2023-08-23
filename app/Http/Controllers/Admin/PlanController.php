@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use App\Models\Plan;
 use App\Models\PlanPrice;
 use App\Models\ReservationSlot;
+use App\Models\Reservation;
+use App\Models\ReservationPlanPrice;
 use Illuminate\View\View;
 use App\Http\Requests\PlanController\StoreRequest;
 use App\Http\Requests\PlanController\PriceStoreRequest;
@@ -72,11 +74,31 @@ class PlanController extends Controller
     }
 
     // 宿泊プラン削除処理
-    public function destroy(ReservationSlot $reservationSlot) : RedirectResponse
+    public function destroy(Plan $plan) : RedirectResponse
     {
-        dd($reservationSlot);
-        $reservationSlot->delete();
-        return to_route('admin.reservation_slots.index')->with('flash_message', '予約枠を削除しました。');
+        // dd($plan);
+        // ToDo
+        // 削除対象のデータ。リレーションを考慮して削除する必要がある。
+        // 予約が存在していないもの(reservationでplan_idが登録されている宿泊プランは削除できないようにする)
+        // 予約(reservation)
+            // migrationファイルにonDelete('cascade')を追加しているので、予約を削除すると予約枠の宿泊プラン料金の中間テーブルのデータも削除される
+        // 4.予約枠の宿泊プラン料金(plan_price)
+        // 5.宿泊プランの画像(plan_image)
+        // 6.宿泊プラン(plan)
+
+        $reservation = Reservation::where('plan_id', $plan->id)->first();
+        // 予約の削除
+         if(empty($reservation))
+         {
+            // 宿泊プランの画像削除
+            $plan->planImages()->delete();
+            // 宿泊プラン削除
+            $plan->delete();
+
+            return to_route('admin.plans.index')->with('flash_message', '宿泊プランに関連する情報を削除しました。');
+         }
+         
+        return to_route('admin.plans.index')->with('flash_message', '予約が存在している宿泊プランは削除できません。');
     }
 
     // 予約枠・料金登録画面

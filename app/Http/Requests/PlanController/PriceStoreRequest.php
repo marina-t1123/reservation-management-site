@@ -24,10 +24,6 @@ class PriceStoreRequest extends FormRequest
     public function rules()
     {
         return [
-            'title' => ['string', 'max:255'],
-            'explanation' => ['string', 'max:1500'],
-            'reservation_slot_id' => ['required', 'integer','exists:reservation_slots,id'],
-            'date' => ['required', 'date'],
             'price' => ['required', 'integer', 'min:0'],
         ];
     }

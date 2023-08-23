@@ -44,12 +44,6 @@
                                         <a class="nav-link" href="{{ route('admin.plans.index') }}">宿泊プラン</a>
                                     </div>
                                 </li>
-                                <li class="nav-item mx-2">
-                                    <div class="d-flex align-items-center">
-                                        <i class="fa-solid fa-door-open"></i>
-                                        <a class="nav-link" href="">部屋情報</a>
-                                    </div>
-                                </li>
                             </ul>
                         @else
                             <ul class="navbar-nav">

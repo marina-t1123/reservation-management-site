@@ -69,6 +69,7 @@
                                 <tr>
                                     <th scope="col"></th>
                                     <th scope="col">チェックイン日</th>
+                                    <th scope="col">チェックアウト日</th>
                                     <th scope="col">名前</th>
                                     <th scope="col">Email</th>
                                     <th scope="col">宿泊状況</th>
@@ -80,17 +81,22 @@
                                     @foreach($reservations as $reservation)
                                         <tr>
                                             <th scope="row"></th>
-                                            <td>{{ $reservation->planPrice->reservationSlot->reservation_slot_date }}</td>
+                                            <td>{{ $reservation->checkin_date }}</td>
+                                            <td>{{ $reservation->checkout_date }}</td>
                                             <td>{{ $reservation->guest->name }}</td>
                                             <td>{{ $reservation->guest->email }}</td>
                                             <td>{{ App\Models\reservation::CANCEL_STATUS[$reservation->cancel_at] ?? '' }}</td>
                                             <td>
                                                 <!-- formタグでキャンセルステータスを変更する -->
-                                                <form action="{{ route('admin.reservations.change_status', $reservation ) }}" method="POST">
-                                                    @csrf
-                                                    @method('PUT')
-                                                    <input type="hidden" value="$reservation">
-                                                <button type="submit" class="btn btn-dark">変更</button>
+                                                @if($reservation->cancel_at == 0 )
+                                                    <form action="{{ route('admin.reservations.change_status', $reservation ) }}" method="POST">
+                                                        @csrf
+                                                        @method('PUT')
+                                                        <input type="hidden" value="$reservation">
+                                                    <button type="submit" class="btn btn-dark">キャンセルに変更</button>
+                                                @elseif($reservation->cancel_at == 1 )
+                                                    操作不可
+                                                @endif
                                             </td>
                                             <td>
                                                 <a href="{{ route('admin.reservations.show', $reservation ) }}" class="btn btn-dark">詳細</a>

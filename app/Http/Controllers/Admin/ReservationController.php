@@ -41,8 +41,9 @@ class ReservationController extends Controller
             ]);
         }
 
-         // 検索フォームから検索されなかった場合、全ての予約を取得する
-         $reservations = Reservation::with('planPrice')->get();
+        // 検索フォームから検索されなかった場合、全ての予約を取得する
+        $reservations = Reservation::with('reservationPlanPrices.planPrice')->get();
+        // dd($reservations);
 
         return view('admin.reservations.index',[
             'reservations' => $reservations,
@@ -54,25 +55,24 @@ class ReservationController extends Controller
     // 予約詳細ページ
     public function show(Reservation $reservation) : View
     {
-        // 詳細表示をする予約の期間を取得後に、チェックアウト日を取得
-        // １泊の場合
-
-        // ２泊以上の場合
-
+        // 予約に紐ずくプランを取得
+        $plan = Plan::find($reservation->plan_id);
+        // 予約に紐づく宿泊プラン料金を取得
+        $planPrice = $reservation->reservationPlanPrices->first()->planPrice;
 
         // 予約情報を詳細画面で表示する
          // チェックイン日・チェックアウト・宿泊プラン名・宿泊プラン料金・宿泊者情報・宿泊人数
-        return view('admin.reservations.show', compact('reservation'));
+        return view('admin.reservations.show', compact('reservation', 'plan', 'planPrice'));
     }
 
     // メモ機能実装
-    public function changeMemo(ChangeMemoRequest $request, Reservation $reservation) : View
+    public function changeMemo(ChangeMemoRequest $request, Reservation $reservation) : RedirectResponse
     {
         // メモを更新する
         $reservation->memo = $request->input('memo');
         $reservation->save();
 
-        return view('admin.reservations.show', compact('reservation'))->with('flash_message', '予約のメモを更新しました');
+        return to_route('admin.reservations.show', compact('reservation'))->with('flash_message', '予約のメモを更新しました');
     }
 
     // 予約のステータスを更新する
@@ -81,6 +81,7 @@ class ReservationController extends Controller
         // 予約ステータスが予約中の場合、キャンセル済みに更新する
         if($reservation->cancel_at === Reservation::CANCEL_STATUS_FALSE)
         {
+            // dd('キャンセル済みに更新する');
             // reservationテーブルのcancel_atカラムを1（キャンセル済み）に更新する
             $reservation->cancel_at = Reservation::CANCEL_STATUS_TRUE;
             $reservation->save();
@@ -94,14 +95,6 @@ class ReservationController extends Controller
             // キャンセルメールを送信する
             \Mail::to('tm.274795@gmail.com')->send(new ReservationCancelMail($reservation));
             return back()->with('flash_message', '予約をキャンセルしました');
-        }
-
-        // 予約ステータスがキャンセル済みの場合、予約中に更新する
-        if($reservation->cancel_at === Reservation::CANCEL_STATUS_TRUE)
-        {
-            $reservation->cancel_at = Reservation::CANCEL_STATUS_FALSE;
-            $reservation->save();
-            return back()->with('flash_message', '予約を予約状態に変更しました');
         }
     }
 

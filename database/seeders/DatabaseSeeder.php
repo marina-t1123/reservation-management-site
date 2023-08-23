@@ -3,6 +3,9 @@
 namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+
+use App\Models\Guest;
+use App\Models\Reservation;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -27,6 +30,10 @@ class DatabaseSeeder extends Seeder
             ReservationSlotSeeder::class,
             PlanSeeder::class,
             PlanPriceSeeder::class,
+            GuestSeeder::class,
+            ReservationSeeder::class,
+            ReservationPlanPriceSeeder::class,
+            InquirySeeder::class
         ]);
     }
 }

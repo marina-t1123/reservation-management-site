@@ -14,7 +14,7 @@
                         <div class="mb-4">
                             <h2 class="mb-2">チェックイン日</h2>
                             <p class="d-inline-block">
-
+                                {{ $reservation->checkin_date }}
                             </p>
                         </div>
 
@@ -22,7 +22,7 @@
                         <div class="mb-4">
                             <h2 class="mb-2">チェックアウト日</h2>
                             <p class="d-inline-block">
-
+                                {{ $reservation->checkout_date }}
                             </p>
                         </div>
 
@@ -30,7 +30,7 @@
                         <div class="mb-4">
                             <h2 class="mb-2">プラン名</h2>
                             <p class="d-inline-block">
-                                {{ $reservation->planPrice->plan->title }}
+                                {{ $plan->title }}
                             </p>
                         </div>
 
@@ -38,7 +38,7 @@
                         <div class="mb-4">
                             <h2 class="mb-2">プラン料金</h2>
                             <p class="d-inline-block">
-                                {{ $reservation->planPrice->price }}
+                                {{ $planPrice->price }}
                             </p>
                         </div>
 

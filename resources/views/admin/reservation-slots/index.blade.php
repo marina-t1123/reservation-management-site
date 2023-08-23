@@ -20,7 +20,7 @@
                                     <th scope="col">部屋番号</th>
                                     <th scope="col">最大宿泊人数</th>
                                     <th scope="col">予約枠日時</th>
-                                    <th scope="col">削除</th>
+                                    {{-- <th scope="col">削除</th> --}}
                                 </tr>
                             </thead>
                             <tbody>
@@ -31,13 +31,13 @@
                                             <td>{{ $reservationSlot->room->number}}</td>
                                             <td>{{ $reservationSlot->room->max_people}}</td>
                                             <td>{{ $reservationSlot->reservation_slot_date}}</td>
-                                            <td>
+                                            {{-- <td>
                                                 <form action="{{ route('admin.reservation_slots.destroy', $reservationSlot) }}" method="POST">
                                                     @csrf
                                                     @method('DELETE')
                                                     <button type="submit" class="btn btn-dark"><i class="fa-solid fa-trash-can"></i></button>
                                                 </form>
-                                            </td>
+                                            </td> --}}
                                         </tr>
                                     @endforeach
                             </tbody>

@@ -34,7 +34,7 @@
                                                 <a href="{{ route('admin.plans.create_price', $plan) }}" class="btn btn-dark">プランに予約枠・料金を設定</a>
                                             </td>
                                             <td>
-                                                <form action="{{ route('admin.reservation_slots.destroy', $plan) }}" method="POST">
+                                                <form action="{{ route('admin.plans.destroy', $plan) }}" method="POST">
                                                     @csrf
                                                     @method('DELETE')
                                                     <button type="submit"><i class="fa-solid fa-trash-can"></i></button>

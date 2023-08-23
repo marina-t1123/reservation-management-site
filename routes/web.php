@@ -44,7 +44,8 @@ Route::middleware('auth')->prefix('admin')->group(function () {
     Route::get('/plans/admin/index', [PlanController::class, 'index'])->name('admin.plans.index');
     Route::get('/plans/create', [PlanController::class, 'create'])->name('admin.plans.create');
     Route::post('/plans/store', [PlanController::class, 'store'])->name('admin.plans.store');
-    
+    Route::delete('/plans/delete/{plan}', [PlanController::class, 'destroy'])->name('admin.plans.destroy');
+
     // 宿泊プラン(料金)
     Route::get('/plans/price/create/{plan}', [PlanController::class, 'createPrice'])->name('admin.plans.create_price');
     Route::post('/plans/price/store/{plan}', [PlanController::class, 'storePrice'])->name('admin.plans.store_price');
@@ -64,6 +65,7 @@ Route::middleware('auth')->prefix('admin')->group(function () {
     Route::get('/reservations/{reservation}', [ReservationController::class, 'show'])->name('admin.reservations.show');
     Route::put('/reservations/{reservation}/memo', [ReservationController::class, 'changeMemo'])->name('admin.reservations.change_memo');
     Route::put('/reservations/{reservation}/status', [ReservationController::class, 'changeStatus'])->name('admin.reservations.change_status');
+
 });
 
 //=========================================================

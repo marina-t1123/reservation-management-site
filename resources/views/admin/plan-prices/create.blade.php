@@ -28,16 +28,10 @@
                                 <label for="name" class="form-label">予約枠選択</label>
                                 <select name="reservation_slot_id" id="reservation_slot_id" class="form-control">
                                     @foreach($reservationSlots as $reservationSlot)
-                                        <option value="{{ $reservationSlot->id }}">{{ App\Models\Room::ROOM_TYPE[$reservationSlot->room->type] }} : {{ $reservationSlot->room->number }}号室</option>
+                                        <option value="{{ $reservationSlot->id }}">{{ '【 '.$reservationSlot->reservation_slot_date.' 】 '. App\Models\Room::ROOM_TYPE[$reservationSlot->room->type] }} : {{ $reservationSlot->room->number }}号室</option>
                                         @include('components.error', ['name' => 'reservation_slot_id'])
                                     @endforeach
                                 </select>
-                            </div>
-                            <!-- プラン設定日 -->
-                            <div class="mb-3">
-                                <label for="date" class="form-label">宿泊プラン設定日</label>
-                                <input type="date" class="form-control" id="date" name="date">
-                                @include('components.error', ['name' => 'date'])
                             </div>
                             <!-- 料金 -->
                             <div class="mb-3">

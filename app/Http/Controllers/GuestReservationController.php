@@ -109,12 +109,15 @@ class GuestReservationController extends Controller
         // dd($checkInDate);
         $checkOutDate = $guestData['end_date'];
 
+
         // チェックイン日とチェックアウト日の日付をCarbonインスタンスに変換
         $checkInDay = new Carbon($checkInDate);
         $checkOutDay = new Carbon($checkOutDate);
 
         // チャックアウト日がチェックイン日の翌日だった場合
         if( $checkOutDay == $checkInDay->copy()->addDay() ) {
+            // dd($checkOutDate);
+
             // 宿泊者情報を保存
             $guest = Guest::create([
                 'name' => $guestData['name'],
@@ -122,8 +125,9 @@ class GuestReservationController extends Controller
                 'tel' => $guestData['tel'],
                 'address' => $guestData['address'],
             ]);
+
             // 予約を作成
-            $reservation = $planPriceDate->reservations()->create([
+            $reservation = Reservation::create([
                 'plan_id' => $planPriceDate->plan_id, // ここはplanPriceDateのplan_idを取得する
                 'guest_id' => $guest->id,
                 'checkin_date' => $checkInDate,
