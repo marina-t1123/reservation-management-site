@@ -15,7 +15,6 @@ class ReservationSlotController extends Controller
     // 一覧画面
     public function index() : View
     {
-
         return view('admin.reservation-slots.index',[
             'reservationSlots' => ReservationSlot::all(),
         ]);

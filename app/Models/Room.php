@@ -23,17 +23,17 @@ class Room extends Model
     ];
 
     // const
-    const ROOM_TYPE_SINGLE_GROUP = 'シングル';
+    // const ROOM_TYPE_SINGLE_GROUP = 'シングル';
 
-    const ROOM_TYPE_DOUBLE_GROUP = 'ダブル';
+    // const ROOM_TYPE_DOUBLE_GROUP = 'ダブル';
 
-    const ROOM_TYPE_TWIN_GROUP = 'ツイン';
+    // const ROOM_TYPE_TWIN_GROUP = 'ツイン';
 
-    const ROOM_TYPE_NUMBER = [
-        self::ROOM_TYPE_SINGLE_GROUP => 1,
-        self::ROOM_TYPE_DOUBLE_GROUP => 2,
-        self::ROOM_TYPE_TWIN_GROUP => 3,
-    ];
+    // const ROOM_TYPE_NUMBER = [
+    //     self::ROOM_TYPE_SINGLE_GROUP => 1,
+    //     self::ROOM_TYPE_DOUBLE_GROUP => 2,
+    //     self::ROOM_TYPE_TWIN_GROUP => 3,
+    // ];
 
 
 

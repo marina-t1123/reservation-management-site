@@ -65,7 +65,7 @@
     {{-- 各空室状況での表示色 --}}
     <div id="color-legend">
         <div class="legend-item">
-            <span class="legend-label">×：予約不可</span>
+            <span class="legend-label">宿泊可能ステータス表示</span>
         </div>
         <div class="legend-item">
             <span class="legend-label">△：残りわずか（残り1室）</span>

@@ -35,19 +35,13 @@
                                 <li class="nav-item mx-2">
                                     <div class="d-flex align-items-center">
                                         <i class="fa-solid fa-calendar-days"></i>
-                                        <a class="nav-link" href="">予約</a>
+                                        <a class="nav-link" href="{{ route('admin.reservations.index')}}">予約</a>
                                     </div>
                                 </li>
                                 <li class="nav-item mx-2">
                                     <div class="d-flex align-items-center">
                                         <i class="fa-solid fa-star"></i>
                                         <a class="nav-link" href="{{ route('admin.plans.index') }}">宿泊プラン</a>
-                                    </div>
-                                </li>
-                                <li class="nav-item mx-2">
-                                    <div class="d-flex align-items-center">
-                                        <i class="fa-solid fa-door-open"></i>
-                                        <a class="nav-link" href="">部屋情報</a>
                                     </div>
                                 </li>
                             </ul>

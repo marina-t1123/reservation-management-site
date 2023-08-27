@@ -15,6 +15,7 @@ class RoomSeeder extends Seeder
     public function run()
     {
         \DB::table('rooms')->insert([
+            // 1:シングル 2:ダブル 3:ツイン
             1 => [
                 'type' => 1,
                 'number' => 101,

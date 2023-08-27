@@ -21,7 +21,10 @@
                             </div>
                             <div class="mb-3">
                                 <label for="subject" class="form-label"></label></label>
-                                <textarea class="form-control" id="subject" name="subject" rows="3" required>{{ $inquiry->subject }}</textarea>
+                                <textarea class="form-control" id="subject" name="subject" rows="3" required disabled>{{ $inquiry->subject }}</textarea>
+                            </div>
+                            <div class="mb-3">
+                                <a href="{{ route('admin.inquiry.index') }}"><p class="btn btn-dark">戻る</p></a>
                             </div>
                         </form>
                     </div>

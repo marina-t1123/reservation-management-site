@@ -15,10 +15,12 @@ return new class extends Migration
     {
         Schema::create('reservations', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('plan_price_id')->comment('予約枠の宿泊プラン料金ID')->constrained()->cascadeOnUpdate();
+            $table->foreignId('plan_id')->comment('プランID')->constrained()->cascadeOnUpdate();
             $table->foreignId('guest_id')->comment('宿泊者ID')->constrained()->cascadeOnUpdate();
+            $table->date('checkin_date')->comment('チェックイン日');
+            $table->date('checkout_date')->comment('チェックアウト日');
             $table->string('memo')->comment('備考欄');
-            $table->boolean('cancel_at')->comment('キャンセルステータス');
+            $table->boolean('cancel_at')->default(false)->comment('キャンセルステータス');
             $table->timestamps();
         });
     }

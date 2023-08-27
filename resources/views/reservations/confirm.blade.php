@@ -9,35 +9,56 @@
                         予約内容最終確認
                     </div>
                     <div class="card-body">
-                        <form action="{{ route('reservation.store')}}" method="post">
+                        <p class="text-center">下記の予約内容でお間違いないかご確認下さい。</p>
+                        <form action="{{ route('reservation.store', $planPriceDate)}}" method="post">
+                            {{-- @dd($planPriceDate) --}}
                             @csrf
-
-                            {{-- <div class="mb-3">
-                                <select name="room_type_id" class="form-control">
-                                    <option value="">部屋番号を選択してください</option>
-                                    @foreach ($rooms as $room => $type)
-                                        <option value="{{ $room }}">{{ $type['number'] }}</option>
-                                    @endforeach
-                                </select>
-                            </div> --}}
+                            <div class="mb-3">
+                                <p>プラン名：{{ $planPriceDate->plan->title }}</p>
+                            </div>
+                            <div class="mb-3">
+                                <p>プラン料金：{{ $planPriceDate->price }}</p>
+                            </div>
+                            <div class="mb-3">
+                                <p>部屋タイプ：{{ App\Models\Room::ROOM_TYPE[$planPriceDate->reservationSlot->room->type] }} {{ $planPriceDate->reservationSlot->room->number }}号室</p>
+                            </div>
+                            <div class="mb-3">
+                                <p>チェックイン：{{ $planPriceDate->reservationSlot->reservation_slot_date }}</p>
+                            </div>
+                            <div class="mb-3">
+                                <label for="end_date" class="form-label">チェックアウト</label>
+                                <input type="date" class="form-control" id="end_date" name="end_date" value="{{ $guestData ? old('end_date', $guestData['end_date']) : $defaultEndDate }}" required disabled>
+                            </div>
                             <div class="mb-3">
                                 <label for="name" class="form-label">お名前</label>
-                                <input type="text" class="form-control" id="name" name="name" required>
+                                <input type="text" class="form-control" id="name" name="name" value="{{ $guestData['name'] }}" required disabled>
+                            </div>
+                            <div class="mb-3">
+                                <label for="address" class="form-label">住所</label>
+                                <input type="text" class="form-control" id="address" name="address" value="{{ $guestData['address'] }}" required disabled>
+                            </div>
+                            <div class="mb-3">
+                                <label for="tel" class="form-label">電話番号</label>
+                                <input type="text" class="form-control" id="tel" name="tel" value="{{ $guestData['tel'] }}" required disabled>
                             </div>
                             <div class="mb-3">
                                 <label for="email" class="form-label">メールアドレス</label>
-                                <input type="email" class="form-control" id="email" name="email" required>
+                                <input type="text" class="form-control" id="email" name="emial" value="{{ $guestData['email'] }}" required disabled>
                             </div>
-                            <div class="mb-3">
-                                <label for="subject" class="form-label">メッセージ</label>
-                                <textarea class="form-control" id="subject" name="subject" rows="3" required></textarea>
-                            </div>
-                            <!-- hiddenでplanPriceを渡す -->
 
-                            <div class="mb-3">
-                                <button type="submit" class="btn btn-primary">送信</button>
+                            <div class="d-flex justify-content-center align-items-center">
+                                <div class="mb-3 mt-3">
+                                    <a href="{{ route('reservation.back_to_create_confirm', $planPriceDate )}}" class="btn-dark">予約内容を修正する</a>
+                                </div>
+                            </div>
+
+                            <div class="d-flex justify-content-center align-items-center">
+                                <div class="mb-3 mt-3">
+                                    <button type="submit" class="btn btn-primary">上記の予約内容で予約をする</button>
+                                </div>
                             </div>
                         </form>
+
                     </div>
                 </div>
             </div>

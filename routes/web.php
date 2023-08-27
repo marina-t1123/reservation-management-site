@@ -7,8 +7,9 @@ use App\Http\Controllers\InquiryController;
 use App\Http\Controllers\GuestPlanController;
 use App\Http\Controllers\Admin\InquiryController as AdminInquiryController;
 use App\Http\Controllers\Admin\ReservationSlotController;
+use App\Http\Controllers\Admin\ReservationController;
 use App\Http\Controllers\Admin\PlanController;
-use App\Http\Controllers\ReservationController;
+use App\Http\Controllers\GuestReservationController;
 
 /*
 |--------------------------------------------------------------------------
@@ -33,7 +34,7 @@ Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
-Route::middleware('auth')->group(function () {
+Route::middleware('auth')->prefix('admin')->group(function () {
     // お問い合わせ
     Route::get('/inquiry', [InquiryController::class, 'index'])->name('admin.inquiry.index');
     Route::get('/inquiry/{inquiry}', [InquiryController::class, 'show'])->name('admin.inquiry.show');
@@ -43,6 +44,8 @@ Route::middleware('auth')->group(function () {
     Route::get('/plans/admin/index', [PlanController::class, 'index'])->name('admin.plans.index');
     Route::get('/plans/create', [PlanController::class, 'create'])->name('admin.plans.create');
     Route::post('/plans/store', [PlanController::class, 'store'])->name('admin.plans.store');
+    Route::delete('/plans/delete/{plan}', [PlanController::class, 'destroy'])->name('admin.plans.destroy');
+
     // 宿泊プラン(料金)
     Route::get('/plans/price/create/{plan}', [PlanController::class, 'createPrice'])->name('admin.plans.create_price');
     Route::post('/plans/price/store/{plan}', [PlanController::class, 'storePrice'])->name('admin.plans.store_price');
@@ -58,6 +61,11 @@ Route::middleware('auth')->group(function () {
     Route::delete('/reservation_slots/{reservationSlot}', [ReservationSlotController::class, 'destroy'])->name('admin.reservation_slots.destroy');
 
     // 予約
+    Route::get('/reservations/index', [ReservationController::class, 'index'])->name('admin.reservations.index');
+    Route::get('/reservations/{reservation}', [ReservationController::class, 'show'])->name('admin.reservations.show');
+    Route::put('/reservations/{reservation}/memo', [ReservationController::class, 'changeMemo'])->name('admin.reservations.change_memo');
+    Route::put('/reservations/{reservation}/status', [ReservationController::class, 'changeStatus'])->name('admin.reservations.change_status');
+
 });
 
 //=========================================================
@@ -76,12 +84,16 @@ Route::get('/plans/{plan}', [GuestPlanController::class, 'guestShow'])->name('gu
 Route::get('/plans/{plan}/calender', [GuestPlanController::class, 'guestShowCalender'])->name('guest.plans.show_calender');
 
 // 予約
-Route::get('/reservation/{planPriceDate}', [ReservationController::class, 'create'])->name('reservation.create'); // 予約新規作成画面
-Route::post('/reservation/{planPriceDate}/confirm', [ReservationController::class, 'createConfirm'])->name('reservation.create_confirm'); // 予約フォーム情報一時保存と確認画面遷移
-Route::get('/reservation/{planPriceDate}/confirm/show', [ReservationController::class, 'showConfirm'])->name('reservation.show_confirm'); // 予約フォーム情報確認画面
-// Route::post('/reservation/{planPrices}/store', [ReservationController::class, 'store'])->name('reservation.store');
-Route::resource('/reservation', ReservationController::class)->except(['create', 'store']);
-
+// 予約新規作成画面
+Route::get('/reservation/{planPriceDate}', [GuestReservationController::class, 'create'])->name('reservation.create');
+// 予約フォーム情報一時保存と確認画面遷移
+Route::post('/reservation/{planPriceDate}/confirm', [GuestReservationController::class, 'createConfirm'])->name('reservation.create_confirm');
+// 予約フォーム情報確認画面
+Route::get('/reservation/{planPriceDate}/confirm/show', [GuestReservationController::class, 'showConfirm'])->name('reservation.show_confirm');
+// 確認画面から予約画面へ戻る
+Route::get('/reservation/{planPriceDate}/confirm/show/back', [GuestReservationController::class, 'backToCreate'])->name('reservation.back_to_create_confirm');
+// 予約を作成
+Route::post('/reservation/{planPriceDate}/store', [GuestReservationController::class, 'store'])->name('reservation.store');
 
 Route::middleware('auth')->group(function () {
     // プロフィール関連(デフォルト)

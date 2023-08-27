@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests\PlanController;
+namespace App\Http\Requests\ReservationController;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class PriceStoreRequest extends FormRequest
+class SearchRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,7 +24,7 @@ class PriceStoreRequest extends FormRequest
     public function rules()
     {
         return [
-            'price' => ['required', 'integer', 'min:0'],
+            // 'plan' => ['required', 'string', 'max:255'],
         ];
     }
 }
