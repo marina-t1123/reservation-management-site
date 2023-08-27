@@ -27,17 +27,29 @@ class GuestReservationController extends Controller
         // もし、すでにsessionに予約者情報があれば取得する
         if( session()->has('guestData') ) {
             $guestData = session()->get('guestData');
+
+            // dd($planPriceDate); PlanPriceモデルのインスタンスが入っている
+            return view('reservations.create', [
+                'planPriceDate' => $planPriceDate,
+                'defaultEndDate' => $defaultEndDate,
+                'guestData' => $guestData,
+            ]);
         } else {
             $guestData = '';
+            // チェックアウト日のデフォルト値を設定(チェックイン日の翌日)
+            $startDate = Carbon::createFromDate($planPriceDate->reservationSlot->reservation_slot_date)->toDateString();
+            $defaultEndDate = Carbon::parse($startDate)->addDay(1)->toDateString();
+            // dd($planPriceDate); PlanPriceモデルのインスタンスが入っている
+            return view('reservations.create', [
+                    'planPriceDate' => $planPriceDate,
+                    'defaultEndDate' => $defaultEndDate,
+                    'guestData' => $guestData,
+            ]);
         }
 
-        // dd($planPriceDate); PlanPriceモデルのインスタンスが入っている
-        return view('reservations.create', [
-            'planPriceDate' => $planPriceDate,
-            'defaultEndDate' => $defaultEndDate,
-            'guestData' => $guestData,
-        ]);
     }
+
+
 
     /**
      * 宿泊者情報の一時保存と確認画面への遷移
@@ -203,6 +215,14 @@ class GuestReservationController extends Controller
 
 
         return redirect()->route('top')->with('flash_message', '予約が確定されました。');
+    }
+
+    public function sessionClear()
+    {
+        // セッションを空にする
+        session()->forget('guestData');
+
+        return to_route('reservation.create')->with('flash_message', '入力内容をリセットしました。');
     }
 
 }

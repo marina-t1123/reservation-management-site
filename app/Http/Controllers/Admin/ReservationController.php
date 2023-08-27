@@ -78,6 +78,8 @@ class ReservationController extends Controller
     // 予約のステータスを更新する
     public function changeStatus(Reservation $reservation)
     {
+        // dd($reservation);
+
         // 予約ステータスが予約中の場合、キャンセル済みに更新する
         if($reservation->cancel_at === Reservation::CANCEL_STATUS_FALSE)
         {
@@ -86,11 +88,17 @@ class ReservationController extends Controller
             $reservation->cancel_at = Reservation::CANCEL_STATUS_TRUE;
             $reservation->save();
 
-            // reservationSlotテーブルのis_enabledカラムを1（有効）に更新する
+            $reservationPlanPrices = $reservation->reservationPlanPrices;
+
+            // reservationSlotテーブルのis_enabledカラムを0（無効）に更新する
             // この処理をすることで予約枠が有効になり、空室カレンダーで予約枠が表示される
-            $reservation->reservationPlanPrice->reservationSlot->update([
-                'is_enabled' => 1,
-            ]);
+            foreach($reservationPlanPrices as $reservationPlanPrice){
+                $reservationPlanPrice->planPrice->reservationSlot->update([
+                    'is_enabled' => 0,
+                ]);
+            }
+
+            // キャンセルした予約枠を再度作成する
 
             // キャンセルメールを送信する
             \Mail::to('tm.274795@gmail.com')->send(new ReservationCancelMail($reservation));

@@ -35,7 +35,7 @@ class ReservationSlotSeeder extends Seeder
             4 => [
                 'room_id' => 2,
                 'reservation_slot_date' => '2023-08-25',
-                'is_enabled' => true,
+                'is_enabled' => false,
             ],
             // ダブル・201号室・2023-08-25 ~ 2023-08-27
             5 => [

@@ -16,28 +16,36 @@
                             <thead>
                                 <tr>
                                     <th scope="col"></th>
+                                    <th scope="col">予約枠ID</th>
                                     <th scope="col">部屋タイプ</th>
                                     <th scope="col">部屋番号</th>
                                     <th scope="col">最大宿泊人数</th>
                                     <th scope="col">予約枠日時</th>
-                                    {{-- <th scope="col">削除</th> --}}
+                                    <th scope="col">有効フラグ</th>
+                                    <th scope="col">削除</th>
                                 </tr>
                             </thead>
                             <tbody>
                                     @foreach($reservationSlots as $reservationSlot)
                                         <tr>
                                             <th scope="row"></th>
+                                            <td>{{ $reservationSlot->id}}</td>
                                             <td>{{ App\Models\Room::ROOM_TYPE[$reservationSlot->room->type] }}</td>
                                             <td>{{ $reservationSlot->room->number}}</td>
                                             <td>{{ $reservationSlot->room->max_people}}</td>
                                             <td>{{ $reservationSlot->reservation_slot_date}}</td>
-                                            {{-- <td>
-                                                <form action="{{ route('admin.reservation_slots.destroy', $reservationSlot) }}" method="POST">
-                                                    @csrf
-                                                    @method('DELETE')
-                                                    <button type="submit" class="btn btn-dark"><i class="fa-solid fa-trash-can"></i></button>
-                                                </form>
-                                            </td> --}}
+                                            <td>{{ $reservationSlot->is_enabled ? '予約可': '予約不可'}}</td>
+                                            <td>
+                                                @if($reservationSlot->is_enabled == 1)
+                                                    <form action="{{ route('admin.reservation_slots.destroy', $reservationSlot) }}" method="POST">
+                                                        @csrf
+                                                        @method('DELETE')
+                                                        <button type="submit" class="btn btn-dark"><i class="fa-solid fa-trash-can"></i></button>
+                                                    </form>
+                                                @else
+                                                    削除不可
+                                                @endif
+                                            </td>
                                         </tr>
                                     @endforeach
                             </tbody>

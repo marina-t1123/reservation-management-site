@@ -68,6 +68,7 @@
                             <thead>
                                 <tr>
                                     <th scope="col"></th>
+                                    <th scope="col">予約ID</th>
                                     <th scope="col">チェックイン日</th>
                                     <th scope="col">チェックアウト日</th>
                                     <th scope="col">名前</th>
@@ -81,6 +82,7 @@
                                     @foreach($reservations as $reservation)
                                         <tr>
                                             <th scope="row"></th>
+                                            <td>{{ $reservation->id }}</td>
                                             <td>{{ $reservation->checkin_date }}</td>
                                             <td>{{ $reservation->checkout_date }}</td>
                                             <td>{{ $reservation->guest->name }}</td>

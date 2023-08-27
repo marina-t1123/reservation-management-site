@@ -34,11 +34,17 @@
                                                 <a href="{{ route('admin.plans.create_price', $plan) }}" class="btn btn-dark">プランに予約枠・料金を設定</a>
                                             </td>
                                             <td>
-                                                <form action="{{ route('admin.plans.destroy', $plan) }}" method="POST">
-                                                    @csrf
-                                                    @method('DELETE')
-                                                    <button type="submit"><i class="fa-solid fa-trash-can"></i></button>
-                                                </form>
+                                                <td>
+                                                    @if( App\Models\Reservation::where('plan_id', $plan->id)->first() )
+                                                        削除不可
+                                                    @else
+                                                        <form action="{{ route('admin.plans.destroy', $plan) }}" method="POST">
+                                                            @csrf
+                                                            @method('DELETE')
+                                                            <button type="submit"><i class="fa-solid fa-trash-can"></i></button>
+                                                        </form>
+                                                    @endif
+                                                </td>
                                             </td>
                                         </tr>
                                     @endforeach
