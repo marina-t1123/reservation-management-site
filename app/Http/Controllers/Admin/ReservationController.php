@@ -8,6 +8,8 @@ use App\Models\Reservation;
 use App\Mail\ReservationCancelMail;
 use App\Models\Room;
 use App\Models\Plan;
+use App\Models\PlanPrice;
+use App\Models\ReservationSlot;
 use Illuminate\Contracts\View\View;
 use App\Http\Requests\ReservationController\ChangeMemoRequest;
 use Illuminate\Http\RedirectResponse;
@@ -76,34 +78,22 @@ class ReservationController extends Controller
     }
 
     // 予約のステータスを更新する
-    public function changeStatus(Reservation $reservation)
+    public function changeStatus(Request $request, Reservation $reservation)
     {
-        // dd($reservation);
+        $reservation = Reservation::find($request->id);
 
         // 予約ステータスが予約中の場合、キャンセル済みに更新する
-        if($reservation->cancel_at === Reservation::CANCEL_STATUS_FALSE)
-        {
-            // dd('キャンセル済みに更新する');
-            // reservationテーブルのcancel_atカラムを1（キャンセル済み）に更新する
-            $reservation->cancel_at = Reservation::CANCEL_STATUS_TRUE;
-            $reservation->save();
+        $reservation->cancel_at = Reservation::CANCEL_STATUS_TRUE;
+        $reservation->save();
 
-            $reservationPlanPrices = $reservation->reservationPlanPrices;
-
-            // reservationSlotテーブルのis_enabledカラムを0（無効）に更新する
-            // この処理をすることで予約枠が有効になり、空室カレンダーで予約枠が表示される
-            foreach($reservationPlanPrices as $reservationPlanPrice){
-                $reservationPlanPrice->planPrice->reservationSlot->update([
-                    'is_enabled' => 0,
-                ]);
-            }
-
-            // キャンセルした予約枠を再度作成する
-
-            // キャンセルメールを送信する
-            \Mail::to('tm.274795@gmail.com')->send(new ReservationCancelMail($reservation));
-            return back()->with('flash_message', '予約をキャンセルしました');
+        $reservationPlanPrices = $reservation->reservationPlanPrices;
+        foreach($reservationPlanPrices as $reservationPlanPrice){
+            $reservationSlot = $reservationPlanPrice->planPrice->reservationSlot->update([ 'is_enabled' => 1 ]);
         }
+
+        // キャンセルメールを送信する
+        \Mail::to('tm.274795@gmail.com')->send(new ReservationCancelMail($reservation));
+        return back()->with('flash_message', '予約をキャンセルしました');
     }
 
 }

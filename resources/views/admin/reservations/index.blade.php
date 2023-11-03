@@ -94,7 +94,7 @@
                                                     <form action="{{ route('admin.reservations.change_status', $reservation ) }}" method="POST">
                                                         @csrf
                                                         @method('PUT')
-                                                        <input type="hidden" value="$reservation">
+                                                        <input type="hidden" name="id" value="{{ $reservation->id }}">
                                                     <button type="submit" class="btn btn-dark">キャンセルに変更</button>
                                                 @elseif($reservation->cancel_at == 1 )
                                                     操作不可

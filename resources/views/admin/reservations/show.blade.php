@@ -9,6 +9,13 @@
                         予約詳細情報
                     </div>
                     <div class="card-body text-center">
+                        <!-- 部屋番号 -->
+                        <div class="mb-4">
+                            <h2 class="mb-2">部屋番号</h2>
+                            <p class="d-inline-block">
+                                {{ $reservation->room->room_number }}
+                            </p>
+                        </div>
 
                         <!-- チェックイン日 -->
                         <div class="mb-4">
